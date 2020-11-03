@@ -1,0 +1,23 @@
+<% commentable.comments.each do |comment| %>
+<p>
+  <strong>Comment.id:</strong>
+  <%= comment.id %>
+  <strong>Related to:</strong>
+  <%= comment.commentable.class %> #<%= comment.commentable.id %>
+</p>
+<p>
+  <strong>Likes:</strong>
+  <%= comment.likes.count %>  
+  <strong>Comments:</strong>
+  <%= comment.comments.count %>
+</p>
+<p>
+  <strong>Comment.body:</strong>
+  <%= comment.body %>
+</p>
+<%= button_to 'Delete comment', post_comment_path(commentable, comment), method: :delete %>
+
+<%= render partial: "comments/likes", locals: {likeable: comment} %>
+<%= render partial: "comments/form", locals: {commentable: comment} %>
+<%= render partial: "comments/comments", locals: {commentable: comment} %>
+<% end %>

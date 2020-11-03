@@ -1,0 +1,6 @@
+<%= form_for [commentable, Comment.new] do |f| %>
+  <div>
+    <%= f.text_area :body, placeholder: "Add a comment to #{commentable.class} ##{commentable.id} " %>
+  </div>
+  <%= f.submit "submit comment" %>
+<% end %>
