@@ -1,35 +1,85 @@
-<h1>Posts#show</h1>
+<div class="container">
 
-<p>
-  <strong>Post.id:</strong>
-  <%= @post.id %>
-</p>
-<p>
-  <strong>User:</strong>
-  <%= @post.user.email %>
-</p>
-<p>
-  <strong>Title:</strong>
-  <%= @post.title %>
-</p>
-<p>
-  <strong>Body:</strong>
-  <%= @post.body %>
-</p>
-<p>
-  <strong>Likes:</strong>
-  <%= @post.likes.count %>
-</p>
-<p>
-  <strong>Comments:</strong>
-  <%= @post.comments.count %>
-</p>
+  <div class="card mb-3">
 
-<%= render partial: "likes/likes", locals: {likeable: @post} %>
+    <h6 class="card-header">Posted by <%= @post.user.email %></h6>
+    <div class="card-body pb-0">
 
-<%= render partial: "comments/form", locals: {commentable: @post} %>
-<br>
-<%= render partial: "comments/comments", locals: {commentable: @post} %>
+      <h4 class="card-title"><%= @post.title %></h4>
+      <p class="card-text"><%= @post.body %></p>
 
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
+      <% if @post.user == current_user %>
+        <td><%= link_to 'Edit', edit_post_path(@post), class: "btn btn-primary" %></td>
+        <td><%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
+      <% end %>
+
+      <p>
+        <% pre_like = @post.likes.find { |like| like.user == current_user} %>
+        <% if pre_like %>
+        <div class="d-inline-block">
+          <%= button_to post_like_path(@post, pre_like), class: "btn", method: :delete do %><i class="fas fa-heart"></i><% end %>
+        </div>
+        <% else %>
+        <div class="d-inline-block">
+          <%= button_to post_likes_path(@post), class: "btn", method: :post do %><i class="fas fa-heart"></i><% end %>
+        </div>
+        <% end %>
+        
+        <div class="d-inline-block"><%= @post.likes.count %></div>
+        <div class="btn disabled"><i class="fas fa-comment"></i></div>
+        <div class="d-inline-block"><%= @post.comments.count %></div>
+      </p>
+
+    </div>
+
+  </div>
+
+  <% @post.comments.each do |comment| %>
+  <div class="container">
+    <small class="font-weight-bold"><%= comment.user.email %></small>
+    <p class="mb-0"><%= comment.body %></p>
+      <% pre_like = comment.likes.find { |like| like.user == current_user} %>
+      <% if pre_like %>
+      <div class="d-inline-block">
+        <%= button_to comment_like_path(comment, pre_like), class: "btn p-0", method: :delete do %><i class="fas fa-heart"></i><% end %>
+      </div>
+      <% else %>
+      <div class="d-inline-block">
+        <%= button_to comment_likes_path(comment), class: "btn p-0", method: :post do %><i class="fas fa-heart"></i><% end %>
+      </div>
+      <% end %>
+
+      <div class="d-inline-block"><%= comment.likes.count %></div>
+      <div class="btn disabled p-0"><i class="fas fa-comment"></i></div>
+      <div class="d-inline-block"><%= comment.comments.count %></div>
+
+      <% comment.comments.each do |comment2| %>
+      <div class="container">
+        <small class="font-weight-bold"><%= comment2.user.email %></small>
+        <p class="mb-0"><%= comment2.body %></p>
+          <% pre_like = comment2.likes.find { |like| like.user == current_user} %>
+          <% if pre_like %>
+          <div class="d-inline-block">
+            <%= button_to comment_like_path(comment2, pre_like), class: "btn p-0", method: :delete do %><i class="fas fa-heart"></i><% end %>
+          </div>
+          <% else %>
+          <div class="d-inline-block">
+            <%= button_to comment_likes_path(comment2), class: "btn p-0", method: :post do %><i class="fas fa-heart"></i><% end %>
+          </div>
+          <% end %>
+
+          <div class="d-inline-block"><%= comment2.likes.count %></div>
+          <div class="btn disabled p-0"><i class="fas fa-comment"></i></div>
+          <div class="d-inline-block"><%= comment2.comments.count %></div>
+
+          <hr>
+      </div>
+      <% end %>
+      <%= render partial: "comments/form", locals: {commentable: comment} %>
+      <hr>
+  </div>
+  <% end %>
+
+  <%= render partial: "comments/form", locals: {commentable: @post} %>
+
+</div>

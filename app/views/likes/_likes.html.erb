@@ -1,8 +1,16 @@
 <p>
+  <div class="d-inline">
   <% pre_like = likeable.likes.find { |like| like.user == current_user} %>
   <% if pre_like %>
-    <%= button_to 'Unlike', post_like_path(likeable, pre_like), method: :delete %>
+    <%= button_to 'unlike', post_like_path(likeable, pre_like), class: "btn btn-primary", method: :delete %>
   <% else %>
-    <%= button_to 'Like', post_likes_path(likeable), method: :post %>
+  <div class="d-inline-block">
+    <%= button_to post_likes_path(likeable), class: "btn", method: :post do %>
+      <i class="fas fa-heart"></i>
+    <% end %>
+  </div>
+  <div class="d-inline-block">
+    <%= @post.likes.count %>
+  </div>
   <% end %>
 </p>

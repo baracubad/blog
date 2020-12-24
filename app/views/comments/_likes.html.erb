@@ -1,8 +1,8 @@
 <p>
   <% pre_like = likeable.likes.find { |like| like.user == current_user} %>
   <% if pre_like %>
-    <%= button_to 'Unlike', comment_like_path(likeable, pre_like), method: :delete %>
+    <%= button_to 'Unlike', comment_like_path(likeable, pre_like), class: "btn btn-primary", method: :delete %>
   <% else %>
-    <%= button_to 'Like', comment_likes_path(likeable), method: :post %>
+    <%= button_to 'Like', comment_likes_path(likeable), class: "btn btn-primary", method: :post %>
   <% end %>
 </p>

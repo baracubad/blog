@@ -1,38 +1,5 @@
-* {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    box-sizing: border-box;
-    text-decoration: none;
-    color: black;
-}
-
-/*****************************************************************/
-
-header {
-    display: flex;
-    background-color: paleturquoise;
-}
-
-header nav {
-    display: flex;
-}
-
-header ul {
-    display: flex;
-}
-
-header li {
-    padding: 1rem;
-}
-
-header a {
-    padding: 1rem;
-}
-
-header a:hover {
-    background-color: black;
-    color: white;
-}
-
-/*****************************************************************/
+/*
+ *= require bootstrap
+ *= require_tree
+ *= require_self
+ */

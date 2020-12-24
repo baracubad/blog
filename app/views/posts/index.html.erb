@@ -1,33 +1,52 @@
-<h1>Posts#index</h1>
+<div class="container">
+  <p><%= link_to 'New Post', new_post_path, class: "btn btn-outline-primary btn-block" %></p>
 
-<p><%= link_to 'New Post', new_post_path %></p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Body</th>
-      <th>User</th>
-      <th>Likes</th>
-      <th>Comments</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @posts.each do |post| %>
+  <table class="table">
+    <thead>
       <tr>
-        <td><%= post.title %></td>
-        <td><%= post.body %></td>
-        <td><%= post.user_id %></td>
-        <td><%= post.likes.count %> <%= (post.likes.count) <= 1 ? 'Like' : 'Likes'%></td>
-        <td><%= post.comments.count %> <%= (post.comments.count) <= 1 ? 'Comment' : 'Comments'%></td>
-        <td><%= link_to 'Show', post %></td>
-        <% if post.user == current_user %>
-          <td><%= link_to 'Edit', edit_post_path(post) %></td>
-          <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
+        <th>Title</th>
+        <th>Body</th>
+        <th>User</th>
+        <th>Likes</th>
+        <th>Comments</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @posts.each do |post| %>
+        <tr>
+          <td><%= post.title %></td>
+          <td><%= post.body %></td>
+          <td><%= post.user.email %></td>
+          <td><%= post.likes.count %></td>
+          <td><%= post.comments.count %></td>
+          <td><%= link_to 'Show', post %></td>
+          <% if post.user == current_user %>
+            <td><%= link_to 'Edit', edit_post_path(post) %></td>
+            <td><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% @posts.each do |post| %>
+    <div class="card mb-3">
+      <h6 class="card-header">Posted by <%= post.user.email %></h6>
+      <div class="card-body">
+        <h4 class="card-title"><%= post.title %></h4>
+        <p class="card-text"><%= post.body %></p>
+        <%= link_to 'Show', post, class: "btn btn-primary" %>
+        <% if post.user == current_user %>
+          <td><%= link_to 'Edit', edit_post_path(post), class: "btn btn-primary" %></td>
+          <td><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
+        <% end %>
+        <div class="btn disabled"><i class="fas fa-heart"></i></div>
+        <div class="d-inline-block"><%= post.likes.count %></div>
+        <div class="btn disabled"><i class="fas fa-comment"></i></div>
+        <div class="d-inline-block"><%= post.comments.count %></div>
+      </div>
+    </div>
+  <% end %>
+</div>

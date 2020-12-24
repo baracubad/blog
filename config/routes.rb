@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :comments, module: :comments
     resources :likes, module: :comments
   end
+
+  resources :likes
   
   root 'posts#index'
 end
